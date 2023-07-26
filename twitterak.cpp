@@ -70,6 +70,7 @@ void Twitterak::signup(vector<string>&vec1)
         
         if (choice_s == "personal")
         {
+            save = "personal";
             if(vec1.size()==1)
             {
                 cout << "\n$ Username : ";
@@ -183,6 +184,8 @@ void Twitterak::signup(vector<string>&vec1)
                     checkin = 1 ;
                     cin.ignore() ;
                     //choice_login();
+                    //---------------
+                    login(vec1);
                     exit(0);
                 }
             }
@@ -197,6 +200,7 @@ void Twitterak::signup(vector<string>&vec1)
 //-------------------------------------------------------
         else if (choice_s == "organisation")
         {
+            save = "organisation";
             if(vec1.size()==1)
             {
                 cout << "\n$ Username : ";
@@ -299,6 +303,8 @@ void Twitterak::signup(vector<string>&vec1)
                     checkin = 1 ;
                     cin.ignore() ;
                     //choice_login();
+                    //---------------
+                    login(vec1);
                     exit(0);
                 }
             }
@@ -314,6 +320,7 @@ void Twitterak::signup(vector<string>&vec1)
 //----------------------------------------------
         else if (choice_s == "anonymous")
         {
+            save = "anonymous";
             if(vec1.size()==1)
             {
                 cout << "\n$ Username : ";
@@ -365,6 +372,8 @@ void Twitterak::signup(vector<string>&vec1)
                     checkin = 1 ;
                     cin.ignore() ;
                     //choice_login();
+                    //---------------
+                    login(vec1);
                     exit(0);
                 }
             }
@@ -450,3 +459,396 @@ void Twitterak::menu()
 }
 
 //****************************************************************************************************************************
+void Twitterak::login(vector<string>&vec2)//using hash for safety
+{
+    //personal login
+    if(save == "personal")
+    {
+        if(vec2.size()==1)
+        {
+            string username ;
+            string password ;
+            int c = 1 ;
+
+            while (c!=0)
+            {
+            
+            cout << "\n$ Username: ";
+            cin >> username;
+            ckeck_id(username);
+            
+            cout << "\n$ password: ";
+            cin >> password;
+            hash<string>mystd;
+            
+            if(mpersonal.count(username) == 1)//login
+            {
+                if(mpersonal[username]->Get_Password() == mystd(password) )//hash the password
+                {
+                    temp = username ;
+                    checkin = 1 ;
+                    cout << "* You have successfully logged in.\n";
+                    c = 0 ;
+                    cin.ignore();
+                    //choice_login();
+                }
+                else
+                {
+                    cout << "! Your password is incorect.\n";
+                    
+                }
+
+            }
+            else
+            {
+                cout << "! This Username is not found.\n";
+                
+            }
+            
+            }
+
+        }
+        else if(vec2.size()==2)
+        {
+                string username=vec2[1] ;
+                string password ;
+                int c = 1 ;
+
+                while (c!=0)
+                {
+                
+                    ckeck_id(username);
+                    
+                    cout << "\n$ password: ";
+                    cin >> password;
+                    hash<string>mystd;
+                    
+                    if(mpersonal.count(username) == 1) //login
+                    {
+                        if(mpersonal[username]->Get_Password() == mystd(password) ) //hash the password
+                        {
+                            temp = username ;
+                            checkin = 1 ;
+                            cout << "* You have successfully logged in.\n";
+                            c = 0 ;
+                            cin.ignore();
+                            //choice_login();
+                        }
+                        else
+                        {
+                            cout << "! Your password is incorect.\n";
+                            
+                        }
+
+                    }
+                    else
+                    {
+                        cout << "! This Username is not found.\n";
+                        cout << "$ Username: " ;
+                        cin >> username ;
+        
+                    }
+            }
+
+        }
+        else if(vec2.size()==3)
+        {
+                string username=vec2[1] ;
+                string password=vec2[2] ;
+                int c=1 ;
+
+                while (c!=0)
+                {
+                    ckeck_id(username);
+                    hash<string>mystd;
+
+                    if(mpersonal.count(username) == 1) //login
+                    {
+                        if(mpersonal[username]->Get_Password() == mystd(password) ) //hash the password
+                        {
+                            temp = username ;
+                            checkin = 1 ;
+                            cout << "* You have successfully logged in.\n";
+                            c = 0 ;
+                            //choice_login();
+                        }
+                        else
+                        {
+                            cout << "! Your password is incorect.\n";
+                            cout << "$ password: " ;
+                            cin >> password ;
+                        }
+
+                    }
+                    else
+                    {
+                        cout << "! This Username is not found.\n";
+                        cout << "$ Username: " ;
+                        cin >> username ;
+                        
+                    }
+                }
+        }
+    }
+    //---------------------------------------------------------------------
+    //anonymous login
+
+    else if (save == "anonymous")
+    {
+        if(vec2.size()==1)
+        {
+            string username ;
+            string password ;
+            int c = 1 ;
+
+            while (c!=0)
+            {
+            
+            cout << "\n$ Username: ";
+            cin >> username;
+            ckeck_id(username);
+            
+            cout << "\n$ password: ";
+            cin >> password;
+            hash<string>mystd;
+            
+            if(manonymous.count(username) == 1)//login
+            {
+                if(manonymous[username]->Get_Password() == mystd(password) )//hash the password
+                {
+                    temp = username ;
+                    checkin = 1 ;
+                    cout << "* You have successfully logged in.\n";
+                    c = 0 ;
+                    cin.ignore();
+                    //choice_login();
+                }
+                else
+                {
+                    cout << "! Your password is incorect.\n";
+                    
+                }
+
+            }
+            else
+            {
+                cout << "! This Username is not found.\n";
+                
+            }
+            
+            }
+
+        }
+        else if(vec2.size()==2)
+        {
+                string username=vec2[1] ;
+                string password ;
+                int c = 1 ;
+
+                while (c!=0)
+                {
+                
+                    ckeck_id(username);
+                    
+                    cout << "\n$ password: ";
+                    cin >> password;
+                    hash<string>mystd;
+                    
+                    if(manonymous.count(username) == 1) //login
+                    {
+                        if(manonymous[username]->Get_Password() == mystd(password) ) //hash the password
+                        {
+                            temp = username ;
+                            checkin = 1 ;
+                            cout << "* You have successfully logged in.\n";
+                            c = 0 ;
+                            cin.ignore();
+                            //choice_login();
+                        }
+                        else
+                        {
+                            cout << "! Your password is incorect.\n";
+                            
+                        }
+
+                    }
+                    else
+                    {
+                        cout << "! This Username is not found.\n";
+                        cout << "$ Username: " ;
+                        cin >> username ;
+        
+                    }
+            }
+
+        }
+        else if(vec2.size()==3)
+        {
+                string username=vec2[1] ;
+                string password=vec2[2] ;
+                int c=1 ;
+
+                while (c!=0)
+                {
+                    ckeck_id(username);
+                    hash<string>mystd;
+
+                    if(manonymous.count(username) == 1) //login
+                    {
+                        if(manonymous[username]->Get_Password() == mystd(password) ) //hash the password
+                        {
+                            temp = username ;
+                            checkin = 1 ;
+                            cout << "* You have successfully logged in.\n";
+                            c = 0 ;
+                            //choice_login();
+                        }
+                        else
+                        {
+                            cout << "! Your password is incorect.\n";
+                            cout << "$ password: " ;
+                            cin >> password ;
+                        }
+
+                    }
+                    else
+                    {
+                        cout << "! This Username is not found.\n";
+                        cout << "$ Username: " ;
+                        cin >> username ;
+                        
+                    }
+                }
+        }
+    }
+//---------------------------------------------------------------------
+//company login
+    else if(save == "organisation")
+    {
+        if(vec2.size()==1)
+        {
+            string username ;
+            string password ;
+            int c = 1 ;
+
+            while (c!=0)
+            {
+            
+            cout << "\n$ Username: ";
+            cin >> username;
+            ckeck_id(username);
+            
+            cout << "\n$ password: ";
+            cin >> password;
+            hash<string>mystd;
+            
+            if(mcompany.count(username) == 1)//login
+            {
+                if(mcompany[username]->Get_Password() == mystd(password) )//hash the password
+                {
+                    temp = username ;
+                    checkin = 1 ;
+                    cout << "* You have successfully logged in.\n";
+                    c = 0 ;
+                    cin.ignore();
+                    //choice_login();
+                }
+                else
+                {
+                    cout << "! Your password is incorect.\n";
+                    
+                }
+
+            }
+            else
+            {
+                cout << "! This Username is not found.\n";
+                
+            }
+            
+            }
+
+        }
+        else if(vec2.size()==2)
+        {
+                string username=vec2[1] ;
+                string password ;
+                int c = 1 ;
+
+                while (c!=0)
+                {
+                
+                    ckeck_id(username);
+                    
+                    cout << "\n$ password: ";
+                    cin >> password;
+                    hash<string>mystd;
+                    
+                    if(mcompany.count(username) == 1) //login
+                    {
+                        if(mcompany[username]->Get_Password() == mystd(password) ) //hash the password
+                        {
+                            temp = username ;
+                            checkin = 1 ;
+                            cout << "* You have successfully logged in.\n";
+                            c = 0 ;
+                            cin.ignore();
+                            //choice_login();
+                        }
+                        else
+                        {
+                            cout << "! Your password is incorect.\n";
+                            
+                        }
+
+                    }
+                    else
+                    {
+                        cout << "! This Username is not found.\n";
+                        cout << "$ Username: " ;
+                        cin >> username ;
+        
+                    }
+            }
+
+        }
+        else if(vec2.size()==3)
+        {
+                string username=vec2[1] ;
+                string password=vec2[2] ;
+                int c=1 ;
+
+                while (c!=0)
+                {
+                    ckeck_id(username);
+                    hash<string>mystd;
+
+                    if(mcompany.count(username) == 1) //login
+                    {
+                        if(mcompany[username]->Get_Password() == mystd(password) ) //hash the password
+                        {
+                            temp = username ;
+                            checkin = 1 ;
+                            cout << "* You have successfully logged in.\n";
+                            c = 0 ;
+                            //choice_login();
+                        }
+                        else
+                        {
+                            cout << "! Your password is incorect.\n";
+                            cout << "$ password: " ;
+                            cin >> password ;
+                        }
+
+                    }
+                    else
+                    {
+                        cout << "! This Username is not found.\n";
+                        cout << "$ Username: " ;
+                        cin >> username ;
+                        
+                    }
+                }
+        }
+    }
+}

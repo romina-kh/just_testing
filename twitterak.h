@@ -15,7 +15,9 @@ class Twitterak
     public:
     bool checkin = 0;
     string temp = "";
+    string save = ""; //for checkig our account (personal, company , ....)
     void signup(vector<string> &vec1);
+    void login(vector<string>&vec2);
     void ckeck_id(string &id);
     void menu();
 };
