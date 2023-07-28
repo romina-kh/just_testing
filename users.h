@@ -2,88 +2,85 @@
 #define USERS_H
 
 #include <iostream>
-using namespace std;
+#include <string>
+#include <vector>
+#include "tweet.h"
+#include <map>
 
+using namespace std;
 class Common //parent 
 {
+    friend void Tweet:: likes(Common* currentuser, Common* target, int index);
+    friend void Tweet:: show_numberlikes( Common *target, int index);
+    friend void Tweet:: show_likers(Common* target, int index);
+    friend void Tweet:: dislike(Common* currentuser ,Common* target, int index);
     private:
+        map<int ,Tweet> mtweet;// map<string , vector<Tweet*>>
+        vector<string> vecfollowing ;
         string Name;
         string User_Name;
         size_t Password;
         string Picture; //profile pic
         string Header; //header color
-        int Followers;
-        int Follwing;
-
-    public:
-        
-        int Set_Name(string Name);
-        string Get_Name();
-
-        int Set_User(string User_Name);
-        string Get_User();
-
-        int Set_Password(string Password);
-        size_t Get_Password();
-};
-
-class Personal : public Common
-{
-    private:
         string Age;
         string Phone_Number;
         string Country;
         string Link;
         string Bio;
-        string Header;
+        int followers = 0;
+        
+
+        int index = 0 ;
 
     public:
-        int Set_Bio_p(string Bio);
-        string Get_Bio_p();
+        
+        virtual int Set_Name(string Name);
+        virtual string Get_Name();
 
-        int Set_Country_p(string Country);
-        string Get_Country_p();
+        virtual int Set_User(string User_Name);
+        string Get_User();
 
-        int Set_Link_p(string Link);
-        string Get_Link_p();
+        virtual int Set_Password(string Password);
+        size_t Get_Password();
 
-        int Set_Age(string Age);
-        string Get_Age();
+        virtual int Set_Bio(string Bio){};
+        virtual string Get_Bio(){};
 
-        int Set_Phone_p(string Phone_Number);
-        string Get_Phone_p();
+        virtual int Set_Country(string Country){};
+        virtual string Get_Country(){};
+        
+        virtual int Set_Link(string Link){};
+        virtual string Get_Link(){};
+        
+        virtual int Set_Age(string Age){};
+        virtual string Get_Age(){};
+
+        virtual int Set_Phone(string Phone_Number){};
+        virtual string Get_Phone(){};
+
+        virtual void Set_Header(string Header);
+        virtual string Get_Header();
+
+        virtual void push_tweet(Tweet t);
+        virtual void get_tweet();
+        virtual void get_tweet1(int index);
+        virtual void delete_tweet(int number);
+        virtual void edit_tweet(int nUmber) ;
+        virtual string backstring(int number) ;
+
+        virtual void set_index();
+        virtual int get_index(){return index;}
+
+        //virtual void Set_following(int following);
+        virtual int Get_following() ;//
+
+        virtual void Set_followers(int followers);//
+        virtual int Get_followers() ;//
+
+        virtual void add_following(string) ;
+        virtual void show_following() ;
+        virtual void increase_follower();
 };
-
-class Anonymous : public Common
-{
-
-};
-
-class Company : public Common
-{
-    private:
-        string Bio;
-        string Phone_Number;
-        string Country;
-        string Link;
-
-
-    public:
-        int Set_Bio_c(string Bio);
-        string Get_Bio_c();
-
-        int Set_Country_c(string Country);
-        string Get_Country_c();
-
-        int Set_Link_c(string Link);
-        string Get_Link_c();
-
-        int Set_Phone_c(string Phone_Number);
-        string Get_Phone_c();
-
-
-};
-
 
 
 

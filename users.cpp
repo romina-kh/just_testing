@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include "users.h"
+#include "company.h"
+#include "personal.h"
 
 
 using namespace std;
@@ -137,265 +139,163 @@ size_t Common::Get_Password()
     return Password;
 }
 
-//---------------------------------------------------------------------------------
-//personal
-int Personal::Set_Bio_p(string Bio)//160 char(checked)
+
+void Common::Set_Header(string Header)
 {
-    
-    if(Bio.size() < 161)
-    { 
-        this-> Bio = Bio;
-        return 1; 
-    }
-    else if (Bio == "")
+    this -> Header = Header;
+}
+
+
+string Common::Get_Header()
+{
+    return Header;
+}
+
+
+void Common::push_tweet(Tweet word) //class Tweet
+{
+    mtweet[word.get_number()] = word; 
+    cout << "* Your tweet has been successfully registered.\n";
+}
+
+
+void Common::get_tweet()
+{
+    if(mtweet.size()==0)
     {
-        this-> Bio = Bio;
+        cout << "! No tweet has been created.\n" ; 
     }
     else
     {
-        cout << "! Error please Enter another Biography.\n";
-        return 0 ;
-    }
-}
-
-
-string Personal::Get_Bio_p()
-{
-    return Bio;
-}
-
-
-int Personal::Set_Country_p(string Country)
-{
-    if(Country.size() < 51)
-    { 
-        this-> Country = Country;
-        return 1; 
-    }
-    else if (Country == "")
-    {
-        this-> Country = Country;
-    }
-    else
-    {
-        cout << "! Error please Enter another Country.\n";
-        return 0 ;
-    }
-}
-
-
-string Personal::Get_Country_p()
-{
-    return Country;
-}
-
-int Personal::Set_Link_p(string Link)
-{
-    if(Link.size() < 500)
-    { 
-        this-> Link = "https://" + Link;
-        return 1; 
-    }
-    else if (Link == "")
-    {
-        this-> Link = Link;
-        return 0;
-    }
-    else
-    {
-        cout << "! Error please Enter another Link.\n";
-        return 0 ;
-    }
-    
-}
-
-
-string Personal::Get_Link_p()
-{
-    return Link;
-}
-
-
-int Personal::Set_Age(string Age)
-{
-    if(Age[0]>=48 && Age[0]<=57 &&
-       Age[1]>=48 && Age[1]<=57 &&
-       Age[2]>=48 && Age[2]<=57 &&
-       Age[3]>=48 && Age[3]<=57 &&
-       Age[4]==47 &&
-       Age[5]>=48 && Age[5]<=57 &&
-       Age[6]>=48 && Age[6]<=57 &&
-       Age[7]==47 &&
-       Age[8]>=48 && Age[8]<=57 &&
-       Age[9]>=48 && Age[9]<=57 )
-    {
-       this->Age = Age;
-       return 1 ;  
-    }
-    else
-    {
-       cout << "! Error please Enter your birthday correctly.\n";
-       return 0 ;
-    }
-}
-
-
-string Personal::Get_Age()
-{
-    return Age;
-}
-
-
-int Personal::Set_Phone_p(string Phone_Number)
-{
-    int counter = 0;
-    if(Phone_Number.size()==12)
-    {
-        for( int i=0 ;i<Phone_Number.size();i++)
+        for(auto i: mtweet)
         {
-            if(Phone_Number[i]>='0' && Phone_Number[i]<='9')
-            {
-                counter++;
-            }
-
+            cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
+            cout << i.first << ": " << i.second.get_classtweet() << endl << "likes : " <<  i.second.liker_size() <<endl ;
+            cout << i.second.get_Date();
+          
         }
-        if (counter == 12)
+            cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
+
+    }
+}
+
+
+void Common::get_tweet1(int index)
+{
+    if(mtweet.count(index)==1)
+    {
+        cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
+        cout << mtweet[index].get_number() << ":" << mtweet[index].get_classtweet()<< endl << mtweet[index].get_Date() << endl;
+    }
+    else
+    {
+        cout << "! this Tweet does not exist.\n" ;
+    }
+}
+
+
+void Common::set_index()
+{
+    index++;
+}
+void Common::delete_tweet(int Number)
+{
+    if(mtweet.find(Number)!=mtweet.end())
+    {
+        mtweet.erase(Number) ;
+        cout << "* Your tweet has successfully deleted.\n" ;
+     
+    }
+    else
+    {
+        cout << "! We can not find this tweet.\n" ;
+    }
+}
+
+
+void Common::edit_tweet(int nUmber)
+{
+    if(mtweet.find(nUmber)!=mtweet.end())
+    {
+        int totall=stoi(Age.substr(0 ,4)) ;
+        if(totall>2005)
         {
-            this->Phone_Number = Phone_Number;
-            return 1 ;  
+            cout << "! cant edit tweet because You are under 18.\n"  ;
         }
         else
         {
-            cout << "! You are only allowed to enter numbers in this section.\n";
+            cout << "* Enter new text for tweet" << nUmber << ": " ;
+            string newtwe ; //new tweet
+            getline(cin , newtwe) ;
+            mtweet[nUmber].Set_Tweet(newtwe) ;
+            cout << "* Your tweet has been edited successfully.\n" ;
         }
     }
     else
     {
-       cout << "! Error please Enter your phone number correctly.\n" ;
-       return 0 ;
-    }
-    
-
+        cout << "! We can not find this tweet.\n" ;
+    }    
 }
-
-string Personal::Get_Phone_p()
-{
-    return Phone_Number;
-}
-
-
-//---------------------------------------------------------------------------------
-//company
-int Company::Set_Bio_c(string Bio)//160 char(checked)
-{
-    
-    if(Bio.size() < 1101)
-    { 
-        this-> Bio = Bio;
-        return 1; 
-    }
-    else if (Bio == "")
+ 
+string Common::backstring(int number)
+ {
+    if(mtweet.count(number)==1)
     {
-        this-> Bio = Bio;
+        return mtweet[number].get_classtweet();
     }
-    else
-    {
-        cout << "! Error please Enter another Biography.\n";
-        return 0 ;
-    }
+ }
+
+ int Common::Get_following()//
+{
+    return vecfollowing.size();//
 }
 
 
-string Company::Get_Bio_c()
+void Common::Set_followers(int followers)//
 {
-    return Bio;
-}
-
-int Company::Set_Country_c(string Country)
-{
-    if(Country.size() < 51)
-    { 
-        this-> Country = Country;
-        return 1; 
-    }
-    else if (Country == "")
-    {
-        this-> Country = Country;
-    }
-    else
-    {
-        cout << "! Error please Enter another Country.\n";
-        return 0 ;
-    }
+    this -> followers = followers;//
 }
 
 
-string Company::Get_Country_c()
+int Common::Get_followers()//
 {
-    return Country;
+    return followers;//
 }
 
-int Company::Set_Link_c(string Link)
+void Common::add_following(string addfollow)
 {
-    if(Link.size() < 500)
-    { 
-        this-> Link = "https://" + Link;
-        return 1; 
-    }
-    else if (Link == "")
+    bool flag = 0 ;
+    for(auto i : vecfollowing)
     {
-        this-> Link = Link;
-        return 0;
-    }
-    else
-    {
-        cout << "! Error please Enter another Link.\n";
-        return 0 ;
-    }
-    
-}
-
-
-string Company::Get_Link_c()
-{
-    return Link;
-}
-
-
-
-int Company::Set_Phone_c(string Phone_Number)
-{
-    int counter = 0;
-    if(Phone_Number.size()==12)
-    {
-        for( int i=0 ;i<Phone_Number.size();i++)
+        if(i==addfollow)
         {
-            if(Phone_Number[i]>='0' && Phone_Number[i]<='9')
-            {
-                counter++;
-            }
-
+            flag=1 ;
+            break ;
         }
-        if (counter == 12)
-        {
-            this->Phone_Number = Phone_Number;
-            return 1 ;  
-        }
-        else
-        {
-            cout << "! You are only allowed to enter numbers in this section.\n";
-        }
+    }
+    if(flag==0)
+    {
+        vecfollowing.push_back(addfollow) ;
+        cout << "* followed.\n" ;
     }
     else
     {
-       cout << "! Error please Enter your phone number correctly.\n" ;
-       return 0 ;
+        cout << "! You have already follow this account.\n" ;
     }
-    
 
 }
 
-string Company::Get_Phone_c()
+void Common::show_following()
 {
-    return Phone_Number;
+    cout << Get_following() << endl ;
+    for(auto i : vecfollowing )
+    {
+        cout << i << endl ;
+    }
+
 }
+
+void Common::increase_follower()
+{
+   this->followers++ ;
+} 
