@@ -10,6 +10,7 @@ class Twitterak
 {
     private:
         unordered_map<string , Common*> musers;
+        unordered_map <string , vector<Tweet*> > mhashtag;
         //save
     public:
     bool checkin = 0;

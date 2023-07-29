@@ -156,3 +156,51 @@ string Personal::Get_Phone()
     return Phone_Number;
 }
 
+
+
+void Personal:: profile_me()
+{
+            //musers[temp]->Get_Header();
+            //header(color);
+            cout << "$ Name : ";
+            cout << Get_Name()<< endl ;
+            cout << "$ Username : ";
+            cout << Get_User() << endl ;
+            cout << "$ Age : ";
+            cout << Get_Age() << endl ;
+            cout << "$ Phone number : ";
+            cout << Get_Phone() << endl ;
+            cout << "$ Bio : ";
+            cout << Get_Bio() << endl ;
+            cout << "$ Country : ";
+            cout << Get_Country() << endl ;
+            cout << "$ Link : ";
+            cout << Get_Link() << endl ;
+            cout << "$ follower : " ;
+            cout << Get_followers() << endl ;
+            cout << "$ following : " ;
+            show_following() ;
+}            
+       
+void Personal:: profile_other()
+{  
+            // musers[temp]->Get_Header();
+            // header(color);
+            cout << "$ Name : ";
+            cout << Get_Name()<< endl ;
+            cout << "$ Username : ";
+            cout << Get_User() << endl ;
+            cout << "$ Age : ";
+            cout << Get_Age() << endl ;
+            cout << "$ Bio : ";
+            cout << Get_Bio() << endl ;
+            cout << "$ Country : ";
+            cout << Get_Country() << endl ;
+            cout << "$ Link : ";
+            cout << Get_Link() << endl ;
+            cout << "$ follower : " ;
+            cout << Get_followers() << endl ;
+            cout << "$ following : " ;
+            cout << Get_following() << endl ;
+            
+}

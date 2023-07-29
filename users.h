@@ -38,10 +38,10 @@ class Common //parent
         virtual string Get_Name();
 
         virtual int Set_User(string User_Name);
-        string Get_User();
+        virtual string Get_User();
 
         virtual int Set_Password(string Password);
-        size_t Get_Password();
+        virtual size_t Get_Password();
 
         virtual int Set_Bio(string Bio){};
         virtual string Get_Bio(){};
@@ -80,6 +80,11 @@ class Common //parent
         virtual void add_following(string) ;
         virtual void show_following() ;
         virtual void increase_follower();
+
+        virtual void profile_me(){};
+        virtual void profile_other(){};
+        virtual void edit_pro(){};
+
 };
 
 

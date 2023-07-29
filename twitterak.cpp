@@ -186,7 +186,7 @@ void Twitterak::signup(vector<string>&vec1)
     
     // while(flag == true)
         //========
-        cout << "    > organisation\n    > personal\n    > anonymous\n> ";
+        cout << "    > 1.organisation\n    > 2.personal\n    > 3.anonymous\n> ";
         //=========
         getline(cin ,choice_s);
         for (int i = 0 ; i < choice_s.size() ; i++)
@@ -194,7 +194,7 @@ void Twitterak::signup(vector<string>&vec1)
             choice_s[i] = tolower(choice_s[i]);
         }
         
-        if (choice_s == "personal")
+        if (choice_s == "2")
         {
             save = "personal";
             user = new Personal;
@@ -326,129 +326,132 @@ void Twitterak::signup(vector<string>&vec1)
             }
         }
 //-------------------------------------------------------
-        else if (choice_s == "organisation")
+        else if (choice_s == "1")
         {
-            save = "organisation";
-            user = new Company;
+            string manager;
+            cout << "$ Enter username of manager: ";
+            cin >> manager;
+            cin.ignore();
             
-            if(vec1.size()==1)
+            if(musers.count(manager) == 1)
             {
-                cout << "\n$ Username : ";
-                cin >> User;
-                ckeck_id(User);
-                int check1 = user->Set_User(User);
-                while (check1 > 0)
+                user = new Company;
+                cout << "* We found this username. \n";
+
+                if(vec1.size()==1)
                 {
-                    cout << "$ Username : ";
+                    cout << "\n$ Username : ";
                     cin >> User;
-                    check1 = user->Set_User(User);
-                }
-                cout << endl ;
+                    ckeck_id(User);
+                    int check1 = user->Set_User(User);
+                    while (check1 > 0)
+                    {
+                        cout << "$ Username : ";
+                        cin >> User;
+                        check1 = user->Set_User(User);
+                    }
+                    cout << endl ;
 
-            }
-            else
-            {
-                User=vec1[1];
-                ckeck_id(User);
-                int check1 = user->Set_User(User);
-                while (check1 > 0)
+                }
+                else
                 {
-                    check1 = user->Set_User(User);
+                    User=vec1[1];
+                    ckeck_id(User);
+                    int check1 = user->Set_User(User);
+                    while (check1 > 0)
+                    {
+                        check1 = user->Set_User(User);
+                    }
+                    cout << endl ;
                 }
-                cout << endl ;
-            }
 
-            cout << "$ Name : ";
-            cin >> Name;
-            user->Set_Name(Name) ;
-            cout << endl ;
-            
-            cout << "$ Phone number : ";
-            cin >> Phone_Number;
-            int check4 ;
-            check4 = user->Set_Phone(Phone_Number);
-            while (check4 != 1)
-            {
+                cout << "$ Name : ";
+                cin >> Name;
+                user->Set_Name(Name) ;
+                cout << endl ;
+                
                 cout << "$ Phone number : ";
                 cin >> Phone_Number;
+                int check4 ;
                 check4 = user->Set_Phone(Phone_Number);
-            }
-            cout << endl ;
-            
-            cout << "$ Country : ";
-            cin.ignore();
-            getline(cin,Country);
-            int check6 ;
-            check6 = user->Set_Country(Country);
-            while (check6 != 1)
-            {
+                while (check4 != 1)
+                {
+                    cout << "$ Phone number : ";
+                    cin >> Phone_Number;
+                    check4 = user->Set_Phone(Phone_Number);
+                }
+                cout << endl ;
+                
                 cout << "$ Country : ";
-                cin >> Country;
+                cin.ignore();
+                getline(cin,Country);
+                int check6 ;
                 check6 = user->Set_Country(Country);
-            }
-            cout << endl ;
-        
-            cout << "$ Link : ";
-            getline(cin,Link);
-            int check7 ;
-            check7 = user->Set_Link(Link);
-            while (check7 != 1)
-            {
+                while (check6 != 1)
+                {
+                    cout << "$ Country : ";
+                    cin >> Country;
+                    check6 = user->Set_Country(Country);
+                }
+                cout << endl ;
+            
                 cout << "$ Link : ";
-                cin >> Link;
+                getline(cin,Link);
+                int check7 ;
                 check7 = user->Set_Link(Link);
-            }
-            cout << endl ;
-            
-            cout << "$ Bio : ";
-            getline(cin,Bio);
-            int check2 ;
-            check2 = user->Set_Bio(Bio);
-            while (check2 != 1)
-            {
+                while (check7 != 1)
+                {
+                    cout << "$ Link : ";
+                    cin >> Link;
+                    check7 = user->Set_Link(Link);
+                }
+                cout << endl ;
+                
                 cout << "$ Bio : ";
-                cin >> Bio;
+                getline(cin,Bio);
+                int check2 ;
                 check2 = user->Set_Bio(Bio);
-            }
-            cout << endl ;
-            
-            cout << "$ Password : ";
-            cin >> Password ;
-            int ckeck3 ;
-            ckeck3 = user->Set_Password(Password);
-            while(ckeck3 > 0)
-            {
+                while (check2 != 1)
+                {
+                    cout << "$ Bio : ";
+                    cin >> Bio;
+                    check2 = user->Set_Bio(Bio);
+                }
+                cout << endl ;
+                
                 cout << "$ Password : ";
                 cin >> Password ;
+                int ckeck3 ;
                 ckeck3 = user->Set_Password(Password);
-            }
-            cout << endl ;
-            
-            if(musers.count(User) == 0) // check to not have repeated username
-            { 
-            musers[user->Get_User()] = user;
-            cout << "* You have successfully signed up.\n\n" ;
+                while(ckeck3 > 0)
                 {
-                    temp = user->Get_User() ;
-                    checkin = 1 ;
-                    cin.ignore() ;
-                    choice_login();
-                    //---------------
-                    //login(vec1);
-                    exit(0);
+                    cout << "$ Password : ";
+                    cin >> Password ;
+                    ckeck3 = user->Set_Password(Password);
                 }
-            }
-            
-            else
-            {
-                cout<<"! this user name has allredy exist.\n" ;
-                cin.ignore();
-                menu();
-            }
-        }
-    
+                cout << endl ;
+                
+                if(musers.count(User) == 0) // check to not have repeated username
+                { 
+                    musers[user->Get_User()] = user;
+                    cout << "* You have successfully signed up.\n\n" ;
+                    {
+                            temp = user->Get_User() ;
+                            checkin = 1 ;
+                            cin.ignore() ;
+                            choice_login();
+                            
+                    }
+                }
+
+              }  
+              else
+              {
+                cout << "! There is no user with this username.\n";
+              }
+        }                
 //----------------------------------------------
-        else if (choice_s == "anonymous")
+        else if (choice_s == "3")
         {
             save = "anonymous";
             user = new Anonymous;
@@ -505,7 +508,6 @@ void Twitterak::signup(vector<string>&vec1)
                     choice_login();
                     //---------------
                     //login(vec1);
-                    exit(0);
                 }
             }
             
@@ -1087,57 +1089,24 @@ void Twitterak::show(string profile)
     {
        
         ckeck_id(profile);
-        if (save == "personal")
-        {
-            if(profile=="me" || profile=="profile")
+    
+        if(profile=="me" || profile=="profile")
         {
 
             if(musers.count(temp) == 1){
 
             musers[temp]->Get_Header();
             header(color);
-            cout << "$ Name : ";
-            cout << musers[temp]->Get_Name()<< endl ;
-            cout << "$ Username : ";
-            cout << musers[temp]->Get_User() << endl ;
-            cout << "$ Age : ";
-            cout << musers[temp]->Get_Age() << endl ;
-            cout << "$ Phone number : ";
-            cout << musers[temp]->Get_Phone() << endl ;
-            cout << "$ Bio : ";
-            cout << musers[temp]->Get_Bio() << endl ;
-            cout << "$ Country : ";
-            cout << musers[temp]->Get_Country() << endl ;
-            cout << "$ Link : ";
-            cout << musers[temp]->Get_Link() << endl ;
-            cout << "$ follower : " ;
-            cout << musers[temp]->Get_followers() << endl ;
-            cout << "$ following : " ;
-            musers[temp]->show_following() ;
-              choice_login() ;
+            musers[temp]->profile_me();
+            choice_login() ;
             }
         }
        
         else if(musers.count(profile)==1)
         {
-            musers[temp]->Get_Header();
+            musers[profile]->Get_Header();
             header(color);
-            cout << "$ Name : ";
-            cout << musers[profile]->Get_Name()<< endl ;
-            cout << "$ Username : ";
-            cout << musers[profile]->Get_User() << endl ;
-            cout << "$ Age : ";
-            cout << musers[profile]->Get_Age() << endl ;
-            cout << "$ Bio : ";
-            cout << musers[profile]->Get_Bio() << endl ;
-            cout << "$ Country : ";
-            cout << musers[profile]->Get_Country() << endl ;
-            cout << "$ Link : ";
-            cout << musers[profile]->Get_Link() << endl ;
-            cout << "$ follower : " ;
-            cout << musers[profile]->Get_followers() << endl ;
-            cout << "$ following : " ;
-            cout << musers[profile]->Get_following() << endl ;
+            musers[profile]->profile_other();
             choice_login() ;
         }
         else
@@ -1145,97 +1114,8 @@ void Twitterak::show(string profile)
             cout << "!we can not find this member.\n" ;
             choice_login() ;
         }
-        }
-        else if (save == "organisation")
-        {
-            if(profile=="me" || profile=="profile")
-            {
-            if(musers.count(temp) == 1){
-
-            musers[temp]->Get_Header();
-            header(color);
-            cout << "$ Name : ";
-            cout << musers[temp]->Get_Name()<< endl ;
-            cout << "$ Username : ";
-            cout << musers[temp]->Get_User() << endl ;
-            cout << "$ Phone number : ";
-            cout << musers[temp]->Get_Phone() << endl ;
-            cout << "$ Bio : ";
-            cout << musers[temp]->Get_Bio() << endl ;
-            cout << "$ Country : ";
-            cout << musers[temp]->Get_Country() << endl ;
-            cout << "$ Link : ";
-            cout << musers[temp]->Get_Link() << endl ;
-            cout << "$ follower : " ;
-            cout << musers[temp]->Get_followers() << endl ;
-              choice_login() ;
-            }
-        }
-       
-        else if(musers.count(profile)==1)
-        {
-            musers[temp]->Get_Header();
-            header(color);
-            cout << "$ Name : ";
-            cout << musers[profile]->Get_Name()<< endl ;
-            cout << "$ Username : ";
-            cout << musers[profile]->Get_User() << endl ;
-            cout << "$ Bio : ";
-            cout << musers[profile]->Get_Bio() << endl ;
-            cout << "$ Country : ";
-            cout << musers[profile]->Get_Country() << endl ;
-            cout << "$ Link : ";
-            cout << musers[profile]->Get_Link() << endl ;
-            cout << "$ follower : " ;
-            cout << musers[profile]->Get_followers() << endl ;
-            choice_login() ;
-        }
-        else
-        {
-            cout << "!we can not find this member.\n" ;
-            choice_login() ;
-        }
-        }
-        else if (save == "anonymous")
-        {
-            if(profile=="me" || profile=="profile")
-            {
-                    if(musers.count(temp) == 1)
-                    {
-
-                    musers[temp]->Get_Header();
-                    header(color);
-                    cout << "$ Name : ";
-                    cout << musers[temp]->Get_Name()<< endl ;
-                    cout << "$ Username : ";
-                    cout << musers[temp]->Get_User() << endl ;
-                    cout << "$ following : " ;
-                    musers[temp]->show_following() ;
-                    choice_login() ;
-                    }
-            }
-
         
-            else if(musers.count(profile)==1)
-            {
-                
-                    musers[temp]->Get_Header();
-                    header(color);
-                    cout << "$ Name : ";
-                    cout << musers[profile]->Get_Name()<< endl ;
-                    cout << "$ Username : ";
-                    cout << musers[profile]->Get_User() << endl ;
-                    cout << "$ following : " ;
-                    cout << musers[profile]->Get_following() << endl ;
-                    choice_login() ;
-                
-            }
-            else
-            {
-                cout << "!we can not find this member.\n" ;
-                choice_login() ;
-            }
-        }
+
     }
     
 //*****************************************************************************************************************

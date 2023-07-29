@@ -31,6 +31,11 @@ class Company : public Common
         int Set_Phone(string Phone_Number);
         string Get_Phone();
 
+        void profile_me();
+        void profile_other();
+
+        void edit_pro(){};
+
 
 };
 

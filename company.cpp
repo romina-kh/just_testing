@@ -120,3 +120,38 @@ string Company::Get_Phone()
 }
 
 
+void Company:: profile_me()
+{
+            cout << "$ Name : ";
+            cout << Get_Name()<< endl ;
+            cout << "$ Username : ";
+            cout << Get_User() << endl ;
+            cout << "$ Phone number : ";
+            cout << Get_Phone() << endl ;
+            cout << "$ Bio : ";
+            cout << Get_Bio() << endl ;
+            cout << "$ Country : ";
+            cout << Get_Country() << endl ;
+            cout << "$ Link : ";
+            cout << Get_Link() << endl ;
+            cout << "$ follower : " ;
+            cout << Get_followers() << endl ;
+}            
+       
+void Company:: profile_other()
+{  
+            cout << "$ Name : ";
+            cout << Get_Name()<< endl ;
+            cout << "$ Username : ";
+            cout << Get_User() << endl ;
+            cout << "$ Bio : ";
+            cout << Get_Bio() << endl ;
+            cout << "$ Country : ";
+            cout << Get_Country() << endl ;
+            cout << "$ Link : ";
+            cout << Get_Link() << endl ;
+            cout << "$ follower : " ;
+            cout << Get_followers() << endl ;
+            
+}
+        

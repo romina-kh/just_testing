@@ -37,3 +37,24 @@ void Anonymous :: get_tweet1(int index)
 
 
 
+void Anonymous:: profile_me()
+{
+    cout << "$ Name : ";
+    cout << Get_Name()<< endl ;
+    cout << "$ Username : ";
+    cout << Get_User() << endl ;
+    cout << "$ following : " ;
+    show_following() ;
+}            
+       
+void Anonymous:: profile_other()
+{  
+    cout << "$ Name : ";
+    cout << Get_Name()<< endl ;
+    cout << "$ Username : ";
+    cout << Get_User() << endl ;
+    cout << "$ following : " ;
+    cout << Get_following() << endl ;
+            
+}
+

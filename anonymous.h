@@ -18,6 +18,9 @@ class Anonymous : public Common
     void get_tweet();
     void get_tweet1(int index);
     void delete_tweet(int number);
+    void profile_me();
+    void profile_other();
+    void edit_pro(){};
     
 };
 
