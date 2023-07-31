@@ -20,7 +20,7 @@ class Anonymous : public Common
     void delete_tweet(int number);
     void profile_me();
     void profile_other();
-    void edit_pro(){};
+    void edit_pro(string ,string ){};
     
 };
 

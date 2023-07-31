@@ -34,7 +34,7 @@ class Company : public Common
         void profile_me();
         void profile_other();
 
-        void edit_pro(){};
+        void edit_pro(string ,string );
 
 
 };

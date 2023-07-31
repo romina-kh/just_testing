@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <map>
 #include "users.h"
 #include "tweet.h"
 #include <string>
@@ -10,7 +11,7 @@ class Twitterak
 {
     private:
         unordered_map<string , Common*> musers;
-        unordered_map <string , vector<Tweet*> > mhashtag;
+        map <string , vector<Tweet> > mhashtag;
         //save
     public:
     bool checkin = 0;
@@ -28,4 +29,6 @@ class Twitterak
     void edit_profile(string , string);
     void delete_account();
     void check_space(string&) ;
+    void findhash(Tweet);
+    void showhash(string);
 };

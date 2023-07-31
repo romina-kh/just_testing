@@ -194,7 +194,7 @@ void Twitterak::signup(vector<string>&vec1)
             choice_s[i] = tolower(choice_s[i]);
         }
         
-        if (choice_s == "2")
+        if (choice_s == "2" || choice_s == "personal")
         {
             save = "personal";
             user = new Personal;
@@ -451,7 +451,7 @@ void Twitterak::signup(vector<string>&vec1)
               }
         }                
 //----------------------------------------------
-        else if (choice_s == "3")
+        else if (choice_s == "3" || choice_s == "anonymous" )
         {
             save = "anonymous";
             user = new Anonymous;
@@ -727,10 +727,20 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
             musers[temp]->set_index();
             new1.set_number(musers[temp]->get_index());
 
+
             musers[temp]->push_tweet(new1);
+
+            findhash(new1);
             
             choice_login() ;
     
+        }
+        else if (vec[0][0] == '#' )
+        {
+            string key = vec[0];
+            showhash(key);
+            choice_login();
+
         }
        
         else if(vec[0]=="retweet")
@@ -979,12 +989,17 @@ void Twitterak::delete_account()
 //************************************************************************************************************************************************************
 void Twitterak:: edit_profile(string edit ,string changable)
     {
-        system("Color 0F");
         
         cout << "> ";
         
         if(musers.count(temp)==1)
         {
+            if (edit == "age" || edit == "phone number" || edit == "country" || edit == "link" || edit == "bio")
+            {
+            musers[temp]->edit_pro(edit ,changable);
+            choice_login();
+            }
+
             if(edit == "name")
             {
                 changable.erase(0, 1);
@@ -993,65 +1008,6 @@ void Twitterak:: edit_profile(string edit ,string changable)
                 cout << "* Your name has been successfully changed.\n" ;
                 choice_login();
             }
-
-            else if(edit == "age")
-            {
-                musers[temp]->Set_Age(changable) ;
-                cout << "* Your age has been successfully changed.\n" ;
-                choice_login();
-            }
-
-            else if(edit == "phone number")
-            {
-                musers[temp]->Set_Phone(changable) ;
-                cout << "* Your phone number has been successfully changed.\n" ;
-                choice_login();
-            }
-
-            else if(edit == "country")
-            {
-                changable.erase(0, 1);
-                changable.erase(changable.size()-1, 1);
-                musers[temp]->Set_Country(changable) ;
-                cout << "* Your country has been successfully changed.\n" ;
-                choice_login();
-            }
-
-            else if(edit == "link")
-            {
-                changable.erase(0, 1);
-                changable.erase(changable.size()-1, 1);
-                musers[temp]->Set_Link(changable) ;
-                cout << "* Your link has been successfully changed.\n" ;
-                choice_login();
-            }
-            else if(edit == "bio")
-            {
-                changable.erase(0, 1);
-                changable.erase(changable.size()-1, 1);
-                musers[temp]->Set_Bio(changable) ;
-                cout << "* Your bio has been successfully changed.\n" ;
-                choice_login();
-            }
-            
-            else if(edit == "password")//final change!!!!!!!!!
-            {
-                changable.erase(0, 1);
-                changable.erase(changable.size()-1, 1);
-                hash<string>mystd;
-                if(musers[temp]->Get_Password() == mystd(changable))
-                {
-                    cout << "! Registration failed.\n" ;
-                }
-                else
-                {
-                    musers[temp]->Set_Password(changable) ;
-                    cout << "* Your password has been successfully changed.\n" ;
-
-                }
-                choice_login();
-            }
-            
             else if(edit == "username")
             {
                 changable.erase(0, 1);
@@ -1075,13 +1031,32 @@ void Twitterak:: edit_profile(string edit ,string changable)
                 musers[temp]->Set_Header(color) ;
                 header(color);
                 choice_login();
-            
             }
-            else
+
+            else if(edit == "password")//final change!!!!!!!!!
             {
-                cout << "! edit undefined command.\n" ;
+                changable.erase(0, 1);
+                changable.erase(changable.size()-1, 1);
+                hash<string>mystd;
+                if(musers[temp]->Get_Password() == mystd(changable))
+                {
+                    cout << "! Registration failed.\n" ;
+                }
+                else
+                {
+                    musers[temp]->Set_Password(changable) ;
+                    cout << "* Your password has been successfully changed.\n" ;
+
+                }
+                choice_login();
             }
+            
         }
+        else
+        {
+            cout << "! edit undefined command.\n" ;
+        }
+        
     }
 //*************************************************************************************************************************************************************
 
@@ -1119,3 +1094,68 @@ void Twitterak::show(string profile)
     }
     
 //*****************************************************************************************************************
+void Twitterak :: findhash(Tweet tweet_h)
+{
+    string key;
+    string str = tweet_h.get_classtweet();
+    size_t found = str.find('#');
+    int index = user->get_index();
+
+    if (found != string::npos)
+    {
+       for (int i = 0; i < str.size() ; i++) 
+       {
+            if(str[i] == '#')
+            {
+                for(int j = i + 1 ; j < str.size() ; j++)
+                {
+                    
+                    if(str[j] != ' ')
+                    {
+                        key += str[j];
+                    }
+                    else
+                    {
+                        i = j + 1;
+                        break;
+                    }
+                }
+                 
+                for ( int i = 0 ; i < key.size() ; i++)
+                {
+                    key[i] = tolower(key[i]);
+                }
+
+                mhashtag[key].push_back(tweet_h);
+                key = "";
+                
+            }
+       }
+    
+    }
+}
+//*******************************************************************************************************************************
+void Twitterak :: showhash(string look)
+{
+    string ch = look.erase(0,1);
+    for (int i = 0 ; i < ch.size() ; i++)
+    {
+        ch[i] = tolower(ch[i]);
+    }
+    
+    if (mhashtag.count(ch) == 1)
+    {
+        for (auto i : mhashtag[look])
+        {
+            cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
+            cout << i.get_number() << ": " << i.get_classtweet() << endl ;
+            cout << i.get_Date();
+        }
+        cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
+    }
+    else
+    {
+        cout << "! This hashtag does not exist. \n";
+    }
+
+}

@@ -155,3 +155,41 @@ void Company:: profile_other()
             
 }
         
+void Company :: edit_pro(string edit ,string changable)
+{
+        if(edit == "age")
+            {
+            
+            }
+
+            else if(edit == "phone number")
+            {
+                Set_Phone(changable) ;
+                cout << "* Your phone number has been successfully changed.\n" ;
+            }
+
+            else if(edit == "country")
+            {
+                changable.erase(0, 1);
+                changable.erase(changable.size()-1, 1);
+                Set_Country(changable) ;
+                cout << "* Your country has been successfully changed.\n" ;
+            }
+
+            else if(edit == "link")
+            {
+                changable.erase(0, 1);
+                changable.erase(changable.size()-1, 1);
+                Set_Link(changable) ;
+                cout << "* Your link has been successfully changed.\n" ;
+            }
+            else if(edit == "bio")
+            {
+                changable.erase(0, 1);
+                changable.erase(changable.size()-1, 1);
+                Set_Bio(changable) ;
+                cout << "* Your bio has been successfully changed.\n" ;
+                
+            }
+            
+}

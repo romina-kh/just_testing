@@ -83,7 +83,7 @@ class Common //parent
 
         virtual void profile_me(){};
         virtual void profile_other(){};
-        virtual void edit_pro(){};
+        virtual void edit_pro(string ,string ){};
 
 };
 
