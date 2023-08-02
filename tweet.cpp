@@ -28,6 +28,11 @@ int Tweet::get_number()
     return number;
 }
 
+void Tweet::Set_User(string userName)
+{
+    this->userName = userName ;
+}
+
 
 void Tweet::likes(Common* user ,Common* purpose, int index) //liking tweet
 {
@@ -105,4 +110,44 @@ string Tweet::get_Date()
 int Tweet::liker_size()
 {
     return likers.size();
+}
+
+void Tweet::push_mention(Tweet mention)//%%%%
+{
+    mentions.push_back(mention) ;
+}
+
+
+vector<Tweet> Tweet:: Get_mention()
+{
+    return mentions ;
+}
+
+int Tweet::like_mntn(Common* Accountm , int index)
+{
+    bool flg = 0 ;
+    for(auto i: mentions[index].likers)
+    {
+        if(i == Accountm)
+        {
+            flg = 1;
+            break;
+        }
+    }
+    if(flg == 0)
+    {
+        mentions[index].likers.push_back(Accountm) ;
+        return 1 ;
+    }
+    else
+    {
+        cout << "! You have already liked this mention.\n" ;
+        return 0;
+    }
+
+}
+
+void Tweet::show_numberlike_m( Common *purpose, int index , int indexm)
+{
+    cout << "Likes : " << purpose->mtweet[index].Get_mention()[indexm].likers.size()<< endl << endl << endl ;
 }

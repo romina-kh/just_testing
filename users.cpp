@@ -245,10 +245,11 @@ string Common::backstring(int number)
     }
  }
 
- int Common::Get_following()//
+    int Common::Get_following()//
 {
     return vecfollowing.size();//
 }
+ 
 
 
 void Common::Set_followers(int followers)//
@@ -299,5 +300,66 @@ void Common::increase_follower()
 {
    this->followers++ ;
 } 
+
+void Common::create_mention(int number ,string USER)//%%%%
+{
+    if(mtweet.count(number)==1)
+    {
+        Tweet mention ;
+        mention.Set_User(USER) ;
+        string MENTION ;
+        cout << "* Enter your mention:\n" ;
+
+        getline(cin , MENTION) ;
+        mention.Set_Tweet(MENTION) ;
+        mention.Set_date() ;
+        mtweet[number].push_mention(mention) ;
+
+        cout << "* Mentioned successfully.\n" ;
+    }
+    else
+    {
+        cout << "! This tweet does not exist.\n" ;
+    }
+
+} 
+
+void Common::show_mention(int numtweet)
+{
+    unsigned int size =mtweet[numtweet].Get_mention().size() ;
+
+    for ( size_t i = 0 ; i<size ; i++ )
+    {
+        cout << i+1 << ":" << mtweet[numtweet].Get_mention()[i].get_classtweet() << endl ;
+        cout << mtweet[numtweet].Get_mention()[i].get_Date() << endl ;
+        mtweet[numtweet].Get_mention()[i].show_numberlike_m(this ,numtweet , i) ;
+
+    }
+}
+
+void Common::like_mention(Common* mmtn ,int NUMt , int NUMM)
+{
+    if(mtweet.count(NUMt) == 1)
+    {
+        if(NUMM > 0 && NUMM < mtweet[NUMt].Get_mention().size() + 1)
+        {
+            int check_flag = mtweet[NUMt].like_mntn(mmtn, NUMM-1);
+
+            if(check_flag== 1)
+
+             {
+                cout << "* Liked.\n";
+             }
+        }
+        else
+        {
+            cout << "! Can not find the mention with this number.\n";
+        }
+    }
+    else
+    {
+        cout << "! Can not find the tweet with this number.\n";
+    }
+}
 
 

@@ -773,6 +773,36 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
                 }
             }
         }
+
+        else if(vec[0] == "mention")// mention for tweets.
+        {
+            
+            string str = vec[1] ;
+            ckeck_id(str);
+            string numbers = "";
+            string characters = "";
+
+            seperator(str , characters , numbers) ;
+
+            int num = stoi(numbers) ;
+            musers[characters]->create_mention(num , temp) ;
+            choice_login() ;
+
+        }
+
+        else if(vec[0] == "show" && vec[1] == "mention")//show the mentions of each tweet
+        {
+            string str = vec[2] ;
+            ckeck_id(str);
+            string numbers = "";
+            string characters = "";
+
+            seperator(str , characters , numbers) ;
+            int num = stoi(numbers) ;
+            musers[characters]->show_mention(num) ;
+            choice_login() ;
+
+        }
        
         else if(vec[0] == "show" && vec[1] =="tweet")
         {
@@ -839,6 +869,7 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
        
         else if(vec[0] == "delete" && vec[1]== "tweet")
         {
+
             if (save == "personal" || save == "organisation")
             {
             int delete_tw=stoi(vec[2]) ;
@@ -849,6 +880,25 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
                 cout << "! This account is not allowed to delete tweet.\n";
             }
             choice_login();
+        }
+
+        else if(vec[0] == "like" && vec[1] == "mention")//check this person to like or already liked.
+        {
+            string str = vec[2];
+            int nummention =stoi(vec[3]);
+            ckeck_id(str);
+            string numbers = "";
+            string characters = "";
+
+            seperator(str , characters , numbers);
+
+            int num = stoi(numbers) ;
+            if(musers.count(characters) == 1)//checking this character exist
+            {   
+               musers[characters]->like_mention(musers[temp] , num , nummention) ;
+            
+               choice_login() ;
+            }    
         }
         
         else if(vec[0]=="like")

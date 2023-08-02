@@ -14,6 +14,7 @@ class Common //parent
     friend void Tweet:: show_numberlikes( Common *target, int index);
     friend void Tweet:: show_likers(Common* target, int index);
     friend void Tweet:: dislike(Common* currentuser ,Common* target, int index);
+    friend void Tweet::show_numberlike_m( Common *purpose, int index ,int indexm);//friend for liking mention
     private:
         map<int ,Tweet> mtweet;// map<string , vector<Tweet*>>
         vector<string> vecfollowing ;
@@ -72,10 +73,10 @@ class Common //parent
         virtual int get_index(){return index;}
 
         //virtual void Set_following(int following);
-        virtual int Get_following() ;//
+        virtual int Get_following() ;
 
-        virtual void Set_followers(int followers);//
-        virtual int Get_followers() ;//
+        virtual void Set_followers(int followers);
+        virtual int Get_followers() ;
 
         virtual void add_following(string) ;
         virtual void show_following() ;
@@ -84,6 +85,10 @@ class Common //parent
         virtual void profile_me(){};
         virtual void profile_other(){};
         virtual void edit_pro(string ,string ){};
+
+        virtual void create_mention(int number ,string person) ;//mention func
+        virtual void show_mention(int);//mention func
+        virtual void like_mention(Common* mmtn ,int NUMt , int NUMM);//mention func         ****changed Account****
 
 };
 
