@@ -29,6 +29,7 @@ class Tweet
         string get_classtweet();
         int get_number();
         void likes(Common* ,Common* , int);
+        void likes(Common*);
         void dislike(Common* ,Common* , int);
         void show_numberlikes(Common*, int);
         void show_likers(Common*, int);
@@ -42,6 +43,7 @@ class Tweet
         string show_likers(int );
         void Set_date(string);
         
+        void sett();
 
 };
 

@@ -11,6 +11,7 @@ using namespace std;
 class Common //parent 
 {
     friend void Tweet:: likes(Common* currentuser, Common* target, int index);
+    friend void Tweet:: likes(Common* target);
     friend void Tweet:: show_numberlikes( Common *target, int index);
     friend void Tweet:: show_likers(Common* target, int index);
     friend void Tweet:: dislike(Common* currentuser ,Common* target, int index);
@@ -20,8 +21,8 @@ class Common //parent
         vector<string> vecfollowing ;
         string Name;
         string User_Name;
-        string Password;
-        string Password_nohash;
+        size_t Password;
+        size_t Password_nohash;
         string Picture; //profile pic
         string Header; //header color
         string Age;
@@ -43,9 +44,9 @@ class Common //parent
         virtual string Get_User();
 
         virtual int Set_Password(string Password);
-        virtual string Get_Password();//string / size_t
-        // virtual int Set_Password_nohash(string Password);
-        // virtual string Get_Password_nonhash();
+        virtual size_t Get_Password();//string / size_t
+        virtual int Set_Password_nohash(size_t Password);
+        virtual size_t Get_Password_nonhash();
 
         virtual int Set_Bio(string Bio){};
         virtual string Get_Bio(){return "______";};
@@ -95,6 +96,7 @@ class Common //parent
 
         void put_tweet();
         void put_follow();
+        void flike(Common* , int);
 
 };
 

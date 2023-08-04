@@ -11,7 +11,7 @@ int main()
 {
     Twitterak app;
     app.in_user();
-    //app.in_tweet();
+    app.in_tweet();
     app.menu();
     
 

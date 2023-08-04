@@ -551,7 +551,7 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
         {
             // cout << musers[username]->Get_Password() << endl;
             // cout << mystd(password) << endl;
-            if(musers[username]->Get_Password() == password )// mystd(password) )//hash the password
+            if(musers[username]->Get_Password() ==  mystd(password) || musers[username]->Get_Password_nonhash() == mystd(password) )// mystd(password) )//hash the password
             {
                 temp = username ;
                 checkin = 1 ;
@@ -593,7 +593,7 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
                 
                 if(musers.count(username) == 1) //login
                 {
-                    if(musers[username]->Get_Password() == password) //hash the password mystd(password)
+                    if(musers[username]->Get_Password() == mystd(password)) //hash the password mystd(password)
                     {
                         temp = username ;
                         checkin = 1 ;
@@ -632,7 +632,7 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
 
                 if(musers.count(username) == 1) //login
                 {
-                    if(musers[username]->Get_Password() == password) //hash the password
+                    if(musers[username]->Get_Password() == mystd(password)) //hash the password
                     {
                         temp = username ;
                         checkin = 1 ;
@@ -1102,7 +1102,7 @@ void Twitterak:: edit_profile(string edit ,string changable)
                 changable.erase(0, 1);
                 changable.erase(changable.size()-1, 1);
                 hash<string>mystd;
-                if(musers[temp]->Get_Password() == changable)//mystd 
+                if(musers[temp]->Get_Password() == mystd(changable))//mystd 
                 {
                     cout << "! Registration failed.\n" ;
                 }
@@ -1286,6 +1286,9 @@ void Twitterak :: in_user()
     string link;
     string bio;
     string password;
+
+    stringstream pass ;
+    size_t pass_t;
     
     ifstream in_user;
     in_user.open("user.txt" , ios::in);
@@ -1323,8 +1326,12 @@ void Twitterak :: in_user()
             getline (in_user, bio);
             musers[username]->Set_Bio(bio);
 
+
             getline (in_user, password);
-            musers[username]->Set_Password(password);
+            pass << password;
+            pass >> pass_t;
+        
+            musers[username]->Set_Password_nohash(pass_t);
 
             in_user.ignore(49);
         }
@@ -1336,56 +1343,76 @@ void Twitterak :: in_user()
 
 //-------------------------------------------------------------------------------------------------------------
 
-// void Twitterak :: in_tweet()
-// {
-//     string username;
-//     string date;
-//     string like ;
-//     string liker;
-//     string tweet;
-//     string numb;
-//     ifstream in_tweet;
-//     string nothing;
-
-//     Tweet t;
-//     in_tweet.open("tweet.txt" , ios::in);
-
-//     if(!in_tweet)
-//     {
-//         cout << "Error !\n";
-//     }
-//     else
-//     {
-//         // while(!in_tweet.eof())
-//         // {
-
-//     in_tweet >> username >> numb ;// >> like >> date >> nothing >> nothing;
-//     numb.pop_back();
-//     int index = stoi(numb);
-//     t.set_number(index);
-   
-//     getline(in_tweet , tweet); 
-//     t.Set_Tweet(tweet);
-//     musers[username]->push_tweet(t);
+void Twitterak :: in_tweet()
+{
     
-//     getline (in_tweet , date);
-//     t.Set_date(date);
+    ifstream in_tweet;
     
-//     in_tweet >> like ;
-    
-//     while(1)
-//     {
-//         in_tweet >> liker;
-//         //musers[username]->mtweet[index].liker.push_back(liker);
-//         if (liker == "*")
-//         {
-//             break;
-//         }
-//     }
 
+    in_tweet.open("tweet.txt" , ios::in);
+
+    if(!in_tweet)
+    {
+        cout << "Error !\n";
+    }
+    else
+    {
+        while(!in_tweet.eof())
+        {
+            string username;
+            in_tweet >> username;
+
+            if(username == "")
+            {
+                break;
+            }
+
+            while(1)
+            {
+                Tweet t;
+                string date;
+                string like ;
+                string liker;
+                string tweet;
+                string numb;
+
+
+                in_tweet >> numb ;
+                if (numb == "****************************************")
+                {
+                    in_tweet.ignore(1);
+                    break;
+                }
+                numb.pop_back();
+                int index = stoi(numb);
+                t.set_number(index);
             
-//     cout <<username << endl << numb << endl << tweet << endl << like << endl << date << endl << nothing << endl <<nothing  << endl;
-//     }
+                getline(in_tweet , tweet);
+                tweet = tweet.substr(1 , tweet.size()) ;
+                t.Set_Tweet(tweet);
+                
+                getline (in_tweet , date);
+                date+= '\n';
+                t.Set_date(date);
+                musers[username]->push_tweet(t);
+                
+                in_tweet >> like ;
+                
+                while(1)
+                {
+                    in_tweet >> liker;
 
-//     in_tweet.close();
-// }
+                    if (liker == "------------------------------------------")
+                    {
+                        break;
+                    }
+
+                    musers[username]->flike(musers[liker] , index);
+                }
+            }
+        }
+  
+    }
+
+    in_tweet.close();
+}
