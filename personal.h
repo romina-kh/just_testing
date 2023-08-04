@@ -11,14 +11,6 @@ using namespace std;
 
 class Personal : public Common
 {
-    private:
-        string Age;
-        string Phone_Number;
-        string Country;
-        string Link;
-        string Bio;
-        string Header;
-
     public:
         int Set_Bio(string Bio);
         string Get_Bio();

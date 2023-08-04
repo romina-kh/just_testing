@@ -15,12 +15,13 @@ class Common //parent
     friend void Tweet:: show_likers(Common* target, int index);
     friend void Tweet:: dislike(Common* currentuser ,Common* target, int index);
     friend void Tweet::show_numberlike_m( Common *purpose, int index ,int indexm);//friend for liking mention
-    private:
+    protected:
         map<int ,Tweet> mtweet;// map<string , vector<Tweet*>>
         vector<string> vecfollowing ;
         string Name;
         string User_Name;
-        size_t Password;
+        string Password;
+        string Password_nohash;
         string Picture; //profile pic
         string Header; //header color
         string Age;
@@ -42,22 +43,24 @@ class Common //parent
         virtual string Get_User();
 
         virtual int Set_Password(string Password);
-        virtual size_t Get_Password();
+        virtual string Get_Password();//string / size_t
+        // virtual int Set_Password_nohash(string Password);
+        // virtual string Get_Password_nonhash();
 
         virtual int Set_Bio(string Bio){};
-        virtual string Get_Bio(){};
+        virtual string Get_Bio(){return "______";};
 
         virtual int Set_Country(string Country){};
-        virtual string Get_Country(){};
+        virtual string Get_Country(){return "______";};
         
         virtual int Set_Link(string Link){};
-        virtual string Get_Link(){};
+        virtual string Get_Link(){return "______";};
         
         virtual int Set_Age(string Age){};
-        virtual string Get_Age(){};
+        virtual string Get_Age(){return "______";};
 
         virtual int Set_Phone(string Phone_Number){};
-        virtual string Get_Phone(){};
+        virtual string Get_Phone(){return "______";};
 
         virtual void Set_Header(string Header);
         virtual string Get_Header();
@@ -90,12 +93,10 @@ class Common //parent
         virtual void show_mention(int);//mention func
         virtual void like_mention(Common* mmtn ,int NUMt , int NUMM);//mention func         ****changed Account****
 
+        void put_tweet();
+        void put_follow();
+
 };
-
-
-
-
-
 
 
 

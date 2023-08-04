@@ -11,13 +11,6 @@ using namespace std;
 
 class Company : public Common
 {
-    private:
-        string Bio;
-        string Phone_Number;
-        string Country;
-        string Link;
-
-
     public:
         int Set_Bio(string Bio)override;
         string Get_Bio();

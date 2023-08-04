@@ -11,7 +11,7 @@ using namespace std;
 class Common;
 class Tweet
 {
-    private:
+    protected:
 
         vector<Common*>likers;
         vector<Tweet>mentions ;//vec for mention
@@ -39,7 +39,9 @@ class Tweet
         vector<Tweet> Get_mention() ;//mention func
         int like_mntn(Common* , int );//mention func 
         void show_numberlike_m(Common* , int ,int);//mention func
-
+        string show_likers(int );
+        void Set_date(string);
+        
 
 };
 

@@ -4,6 +4,7 @@
 #include "users.h"
 #include "company.h"
 #include "personal.h"
+#include <fstream>
 
 
 using namespace std;
@@ -125,19 +126,87 @@ int Common::Set_Password(string password)
          cout << "! Password should contain both character and number.\n" ;
         return ++counter;
     }
+    
+    // else
+    // {
+    //     Password = mystdhash(pass);
+    //     return 0;
+    // }
     else
     {
-        Password = mystdhash(pass);
+        Password = pass;
         return 0;
     }
 
 }
+//-------------------------------------------------------------------------------------------------------------
+// int Common::Set_Password_nohash(string passwordd)
+// {
+//     hash<string> mystdhash;
+//     int counter = 0;
+//     bool ch = false; //character
+//     bool num = false; //numbers
+//     string pass = "" ;
+//     if(passwordd.size()> 4 )
+//     {
+//          for (char c : passwordd )
+//         {
+//         int num = c - '0'; // convert character to integer
+//         char ascii = static_cast<char>(num + '0'); // convert integer to ASCII 
+//         pass += ascii;
+//         }
 
+//         for( int i=0 ;i<pass.size() ;i++)
+//         {
+//             if(pass[i]>=65 && pass[i]<=90 || pass[i]>=97 && pass[i]<=122 )
+//             {
+//                 ch = true;
+//             }
+//             else if(pass[i]>=48 && pass[i]<=57 )
+//             {
+//                 num = true;
+//             }
+//         }
+//     }
+//     else
+//     {
+//         cout << "! Your password must be more than 4 characters.\n";
+//         return ++counter ;    
+//     }
+    
+//     if (ch == false || num == false)
+//     {
+//         cout << "! Password should contain both character and number.\n" ;
+//         return ++counter;
+//     }
+//     else if ( ch == false && num == true || ch== true && num==false)
+//     {
+//          cout << "! Password should contain both character and number.\n" ;
+//         return ++counter;
+//     }
+    
+//     // else
+//     // {
+//     //     Password = mystdhash(pass);
+//     //     return 0;
+//     // }
+//     else
+//     {
+//         Password_nohash = pass;
+//         return 0;
+//     }
 
-size_t Common::Get_Password()
-{
-    return Password;
-}
+// }
+// //-------------------------------------------------------------------------------------------------------------
+// string Common::Get_Password_nonhash()
+// {
+//     return Password_nohash;
+// }
+
+// size_t Common::Get_Password() 
+// {
+//     return Password;
+// }
 
 
 void Common::Set_Header(string Header)
@@ -215,8 +284,10 @@ void Common::delete_tweet(int Number)
 
 void Common::edit_tweet(int nUmber)
 {
-    if(mtweet.find(nUmber)!=mtweet.end())
+    
+    if(mtweet.find(nUmber)!= mtweet.end())
     {
+
         int totall=stoi(Age.substr(0 ,4)) ;
         if(totall>2005)
         {
@@ -363,3 +434,44 @@ void Common::like_mention(Common* mmtn ,int NUMt , int NUMM)
 }
 
 
+//============================================================================================================
+
+void Common :: put_tweet()
+{
+    ofstream mytweet;
+    mytweet.open("tweet.txt" , ios::app);
+    if(mtweet.size() != 0)
+    {
+        mytweet << User_Name << endl;
+        for(auto i : mtweet)
+        { 
+            mytweet << i.first << ": " << i.second.get_classtweet() << endl  << "likes: " ;
+            for (int j = 0 ; j < i.second.liker_size() ; j++)
+            {
+                mytweet << i.second.show_likers(j) << " "; 
+            }
+            mytweet << endl << "* " <<i.second.get_Date()
+            << "------------------------------------------\n";
+
+        }
+        mytweet << "****************************************\n";
+
+    }
+
+    
+
+    mytweet.close();
+}
+//==============================================================================================================
+
+void Common :: put_follow()
+{
+    ofstream myfollow;
+    myfollow.open("follow.txt" , ios::app);
+
+    for(int i = 0 ; i< vecfollowing.size(); i++)
+    {
+        myfollow << vecfollowing[i] << endl;
+    }
+    myfollow.close();
+}

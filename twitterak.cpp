@@ -11,6 +11,7 @@
 #include "company.h"
 #include "personal.h"
 #include "anonymous.h"
+#include <fstream>
 
 
 using namespace std ;
@@ -154,6 +155,9 @@ void Twitterak::menu()
             if (ask[0] == 'y')
             {
                 cout << "* Good Bye.";
+                put_user();
+                ptweet();
+                pfollow();
                 exit(0);
             }
             else
@@ -518,6 +522,7 @@ void Twitterak::signup(vector<string>&vec1)
                 menu();
             }
         }
+        
 }
                     
 
@@ -539,12 +544,14 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
         ckeck_id(username);
         
         cout << "\n$ password: ";
-        cin >> password;
+        cin >> password;//romina23 1234567
         hash<string>mystd;
         
         if(musers.count(username) == 1)//login
         {
-            if(musers[username]->Get_Password() == mystd(password) )//hash the password
+            // cout << musers[username]->Get_Password() << endl;
+            // cout << mystd(password) << endl;
+            if(musers[username]->Get_Password() == password )// mystd(password) )//hash the password
             {
                 temp = username ;
                 checkin = 1 ;
@@ -586,7 +593,7 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
                 
                 if(musers.count(username) == 1) //login
                 {
-                    if(musers[username]->Get_Password() == mystd(password) ) //hash the password
+                    if(musers[username]->Get_Password() == password) //hash the password mystd(password)
                     {
                         temp = username ;
                         checkin = 1 ;
@@ -625,7 +632,7 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
 
                 if(musers.count(username) == 1) //login
                 {
-                    if(musers[username]->Get_Password() == mystd(password) ) //hash the password
+                    if(musers[username]->Get_Password() == password) //hash the password
                     {
                         temp = username ;
                         checkin = 1 ;
@@ -730,7 +737,7 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
 
             musers[temp]->push_tweet(new1);
 
-            findhash(new1);
+            findhash(&new1);
             
             choice_login() ;
     
@@ -858,7 +865,6 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
         
         else if(vec[0] == "edit" && vec[1]== "tweet")
         {
-            
             int edit_tw = stoi(vec[2]);
             musers[temp]->edit_tweet(edit_tw) ;
         
@@ -967,17 +973,22 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
             string strf = vec[1];
             ckeck_id(strf);
             
-            if(musers.count(strf) == 1)//checking this character exist
+            if(musers.count(strf) == 1 && strf!=temp)//checking this character exist
             { 
                 musers[temp]->add_following(strf) ;
                 musers[strf]->increase_follower() ;
                 choice_login() ;
             }
+            else if (strf == temp)
+            {
+                cout << "! You can not follow yourself.\n" ;
+                choice_login() ;
+            }  
             else
             {
                 cout << "! Can not find this account.\n" ;
                 choice_login() ;
-            }    
+            }  
         }
         
         else if(vec[0]=="show")
@@ -1001,11 +1012,14 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
             if (ask == 'y')
             {
                 cout << "* Good Bye.";
+                put_user();
+                ptweet();
+                pfollow();
                 exit(0);
             }
             else
             {
-                menu() ;
+                choice_login();
 
             }
         }
@@ -1088,7 +1102,7 @@ void Twitterak:: edit_profile(string edit ,string changable)
                 changable.erase(0, 1);
                 changable.erase(changable.size()-1, 1);
                 hash<string>mystd;
-                if(musers[temp]->Get_Password() == mystd(changable))
+                if(musers[temp]->Get_Password() == changable)//mystd 
                 {
                     cout << "! Registration failed.\n" ;
                 }
@@ -1144,10 +1158,10 @@ void Twitterak::show(string profile)
     }
     
 //*****************************************************************************************************************
-void Twitterak :: findhash(Tweet tweet_h)
+void Twitterak :: findhash(Tweet *tweet_h)
 {
     string key;
-    string str = tweet_h.get_classtweet();
+    string str = tweet_h->get_classtweet();
     size_t found = str.find('#');
     int index = user->get_index();
 
@@ -1198,8 +1212,8 @@ void Twitterak :: showhash(string look)
         for (auto i : mhashtag[look])
         {
             cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
-            cout << i.get_number() << ": " << i.get_classtweet() << endl ;
-            cout << i.get_Date();
+            cout << i->get_number() << ": " << i->get_classtweet() << endl ;
+            cout << i->get_Date();
         }
         cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
     }
@@ -1209,3 +1223,169 @@ void Twitterak :: showhash(string look)
     }
 
 }
+//==================================================================================================================
+
+
+void Twitterak :: put_user()
+{
+    ofstream outuser;
+    outuser.open("user.txt", ios::out);
+
+    for (auto i : musers)
+    {
+        outuser << i.second->Get_User() << endl << i.second->Get_Name() << endl << i.second->Get_Age() << endl 
+        << i.second->Get_Phone() << endl << i.second->Get_Country() << endl << i.second->Get_Link() << endl <<
+        i.second->Get_Bio() << endl << i.second->Get_Password() << endl
+        << "************************************************\n";
+        //header
+    }
+    outuser.close();
+}
+
+ //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// void Twitterak :: put_hashtag()
+// {
+//     ofstream myhashtag;
+//     myhashtag.open("hashtag.txt", ios::out);
+
+//     for (auto i : mhashtag)
+//     {
+//         myhashtag << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n" <<
+//         i.second.get_number() << ": " << i.second.get_classtweet() << endl << i.second.get_Date();
+//     }
+//     myhashtag.close();
+// }
+
+//----------------------------------------------------------------------------------------------------------------
+void Twitterak :: ptweet()
+{
+    remove("tweet.txt");
+    for ( auto i : musers)
+    {
+        i.second->put_tweet();
+    }
+}
+
+//----------------------------------------------------------------------------------------------------------------
+void Twitterak :: pfollow()
+{
+    remove("follow.txt");
+    for ( auto i : musers)
+    {
+        i.second->put_follow();
+    }
+}
+//----------------------------------------------------------------------------------------------------------------
+void Twitterak :: in_user()
+{
+    string username;
+    string name;
+    string age; 
+    string phone_number;
+    string country;
+    string link;
+    string bio;
+    string password;
+    
+    ifstream in_user;
+    in_user.open("user.txt" , ios::in);
+
+    if (!in_user)
+    {
+        cout << "Error !\n";
+    }
+    else
+    {
+        while(!in_user.eof())
+        {
+            Common* file_user;
+            file_user = new Personal;
+
+            getline (in_user, username);
+            file_user->Set_User(username);
+            musers[username] = file_user;
+
+            getline (in_user, name);
+            musers[username]->Set_Name(name);
+
+            getline (in_user, age);
+            musers[username]->Set_Age(age);
+
+            getline (in_user, phone_number);
+            musers[username]->Set_Phone(phone_number);
+
+            getline (in_user, country);
+            musers[username]->Set_Country(country);
+
+            getline (in_user, link);
+            musers[username]->Set_Link(link);
+
+            getline (in_user, bio);
+            musers[username]->Set_Bio(bio);
+
+            getline (in_user, password);
+            musers[username]->Set_Password(password);
+
+            in_user.ignore(49);
+        }
+    }
+    
+
+    in_user.close();
+}
+
+//-------------------------------------------------------------------------------------------------------------
+
+// void Twitterak :: in_tweet()
+// {
+//     string username;
+//     string date;
+//     string like ;
+//     string liker;
+//     string tweet;
+//     string numb;
+//     ifstream in_tweet;
+//     string nothing;
+
+//     Tweet t;
+//     in_tweet.open("tweet.txt" , ios::in);
+
+//     if(!in_tweet)
+//     {
+//         cout << "Error !\n";
+//     }
+//     else
+//     {
+//         // while(!in_tweet.eof())
+//         // {
+
+//     in_tweet >> username >> numb ;// >> like >> date >> nothing >> nothing;
+//     numb.pop_back();
+//     int index = stoi(numb);
+//     t.set_number(index);
+   
+//     getline(in_tweet , tweet); 
+//     t.Set_Tweet(tweet);
+//     musers[username]->push_tweet(t);
+    
+//     getline (in_tweet , date);
+//     t.Set_date(date);
+    
+//     in_tweet >> like ;
+    
+//     while(1)
+//     {
+//         in_tweet >> liker;
+//         //musers[username]->mtweet[index].liker.push_back(liker);
+//         if (liker == "*")
+//         {
+//             break;
+//         }
+//     }
+
+            
+//     cout <<username << endl << numb << endl << tweet << endl << like << endl << date << endl << nothing << endl <<nothing  << endl;
+//     }
+
+//     in_tweet.close();
+// }

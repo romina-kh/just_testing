@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "tweet.h"
 #include "users.h"
 #include <ctime>
@@ -150,4 +151,15 @@ int Tweet::like_mntn(Common* Accountm , int index)
 void Tweet::show_numberlike_m( Common *purpose, int index , int indexm)
 {
     cout << "Likes : " << purpose->mtweet[index].Get_mention()[indexm].likers.size()<< endl << endl << endl ;
+}
+
+
+string Tweet :: show_likers(int index)
+{
+    return likers[index]->Get_User();
+}
+
+void Tweet :: Set_date(string Date)
+{
+    this->Date = Date;
 }

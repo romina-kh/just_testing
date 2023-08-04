@@ -10,10 +10,10 @@ using namespace std;
 int main()
 {
     Twitterak app;
+    app.in_user();
+    //app.in_tweet();
     app.menu();
-    /*t.signup();
-    t.login();
-    t.logout();*/
+    
 
     return 0;
 }
