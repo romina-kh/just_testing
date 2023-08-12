@@ -42,7 +42,6 @@ class Tweet
         void show_numberlike_m(Common* , int ,int);//mention func
         string show_likers(int );
         void Set_date(string);
-        
         void sett();
 
 };

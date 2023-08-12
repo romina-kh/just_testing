@@ -63,7 +63,6 @@ void header(string color)
 void Twitterak::check_space(string& str3)
 {
     size_t pos ;
-    // Find the first non-space character in the string
     for( int i=0 ;i<str3.size() ;i++)
     {
         pos = str3.find_first_not_of(" ");
@@ -549,22 +548,23 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
         
         if(musers.count(username) == 1)//login
         {
-            // cout << musers[username]->Get_Password() << endl;
-            // cout << mystd(password) << endl;
-            if(musers[username]->Get_Password() ==  mystd(password) || musers[username]->Get_Password_nonhash() == mystd(password) )// mystd(password) )//hash the password
-            {
-                temp = username ;
-                checkin = 1 ;
-                cout << "* You have successfully logged in.\n";
-                c = 0 ;
-                cin.ignore();
-                choice_login();
-            }
-            else
-            {
-                cout << "! Your password is incorect.\n";
-                
-            }
+            
+           cout << musers[username]->Get_Password() << endl << musers[username]->Get_Password_nonhash() ;
+          
+           if(musers[username]->Get_Password() ==  mystd(password))// mystd(password) )//hash the password
+                {
+                    temp = username ;
+                    checkin = 1 ;
+                    cout << "* You have successfully logged in.\n";
+                    c = 0 ;
+                    cin.ignore();
+                    choice_login();
+                }
+                else
+                {
+                    cout << "! Your password is incorect.\n";
+                        
+                 }
 
         }
         else
@@ -573,6 +573,7 @@ void Twitterak::login(vector<string>&vec2)//using hash for safety
             
         }
         
+       
         }
 
     }
@@ -674,7 +675,6 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
     string t; //string that we use to separate words from each other(words between space)
     string checkname="likes";
     bool flag = true;
-   
     while(flag == true)
     {
         if(musers.count(temp) == 1)
@@ -682,7 +682,18 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
             cout << "> @" << temp;
         }
         cout << "> " ;
+        vec.clear() ;
         getline(cin ,choice2);
+        
+        while(choice2.empty())
+        {
+            if(musers.count(temp) == 1)
+            {
+                cout << "> @" << temp;
+            }
+            cout << "> " ;
+            getline(cin ,choice2);
+        }
         for (int i = 0 ; i < choice2.size() ; i++)
         {
             choice2[i] = tolower(choice2[i]);
@@ -738,7 +749,6 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
             musers[temp]->push_tweet(new1);
 
             findhash(&new1);
-            
             choice_login() ;
     
         }
@@ -1019,6 +1029,7 @@ void Twitterak::choice_login() //Showing diffrent oprtions after login
             }
             else
             {
+                cin.ignore() ;
                 choice_login();
 
             }
@@ -1285,7 +1296,7 @@ void Twitterak :: in_user()
     string country;
     string link;
     string bio;
-    string password;
+    size_t password;
 
     stringstream pass ;
     size_t pass_t;
@@ -1295,7 +1306,7 @@ void Twitterak :: in_user()
 
     if (!in_user)
     {
-        cout << "Error !\n";
+        cout << "! Error.\n" ;
     }
     else
     {
@@ -1327,11 +1338,11 @@ void Twitterak :: in_user()
             musers[username]->Set_Bio(bio);
 
 
-            getline (in_user, password);
-            pass << password;
-            pass >> pass_t;
-        
-            musers[username]->Set_Password_nohash(pass_t);
+            in_user >> password;
+            //pass << password;
+            //pass >> pass_t;
+            //cout << pass_t << endl ;
+            musers[username]->Set_Password_nohash(password);
 
             in_user.ignore(49);
         }
@@ -1375,7 +1386,10 @@ void Twitterak :: in_tweet()
                 string liker;
                 string tweet;
                 string numb;
-
+                string nummen ;
+                string men ;
+                string datemen ;
+                string likemen ;
 
                 in_tweet >> numb ;
                 if (numb == "****************************************")
@@ -1394,7 +1408,6 @@ void Twitterak :: in_tweet()
                 getline (in_tweet , date);
                 date+= '\n';
                 t.Set_date(date);
-                musers[username]->push_tweet(t);
                 
                 in_tweet >> like ;
                 
@@ -1407,12 +1420,47 @@ void Twitterak :: in_tweet()
                         break;
                     }
 
+
                     musers[username]->flike(musers[liker] , index);
                 }
+                in_tweet >> nummen ; 
+
+                while(nummen!= "&&&")
+                {
+                    nummen.pop_back() ;
+                    Tweet tmen ;
+                    tmen.set_number(stoi(nummen));
+
+                    getline(in_tweet ,men) ;
+                    tmen.Set_Tweet(men) ;
+
+                    getline(in_tweet ,datemen) ;
+                    tmen.Set_date(datemen) ;
+
+                    in_tweet >> like ;
+                
+                    while(1)
+                    {
+                        in_tweet >> likemen;
+
+                        if (likemen == "^^^^^")
+                        {
+                            break;
+                        }
+
+                        tmen.likes(musers[likemen]) ;
+                    }
+                   t.push_mention(tmen) ;
+                   in_tweet >> nummen ;
+                }
+                
+                musers[username]->push_tweet(t);
             }
+    
         }
-  
+           
     }
+    
 
     in_tweet.close();
 }

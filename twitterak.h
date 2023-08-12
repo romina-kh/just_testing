@@ -28,7 +28,7 @@ class Twitterak
     //void help();
     void edit_profile(string , string);
     void delete_account();
-    void check_space(string&) ;
+    void check_space(string&);
     void findhash(Tweet*);
     void showhash(string);
     void put_user();

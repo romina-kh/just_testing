@@ -143,7 +143,7 @@ int Common::Set_Password(string password)
 int Common::Set_Password_nohash(size_t passwordd)
 {
     
-        Password_nohash = passwordd;
+        Password = passwordd;
         return 0;
     
 
@@ -404,6 +404,17 @@ void Common :: put_tweet()
             }
             mytweet << endl << "------------------------------------------\n";
 
+            for(auto j: i.second.Get_mention())
+            {
+                mytweet <<j.get_number()<< ": " << j.get_classtweet() << endl << j.get_Date() << endl << "likes: " ; 
+
+                for(int k = 0 ; k < j.liker_size() ; k++)
+                {
+                   mytweet << j.show_likers(k) << " "; 
+                }
+               mytweet << "^^^^^" << endl ; 
+            }
+            mytweet << endl << "&&&" << endl ;
         }
         mytweet << "****************************************\n";
 
