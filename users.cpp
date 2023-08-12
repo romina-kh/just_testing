@@ -127,34 +127,81 @@ int Common::Set_Password(string password)
         return ++counter;
     }
     
-    else
-    {
-        Password = mystdhash(pass);
-        return 0;
-    }
     // else
     // {
-    //     Password = pass;
+    //     Password = mystdhash(pass);
     //     return 0;
     // }
-
-}
-//-------------------------------------------------------------------------------------------------------------
-int Common::Set_Password_nohash(size_t passwordd)
-{
-    
-        Password_nohash = passwordd;
+    else
+    {
+        Password = pass;
         return 0;
+    }
+
+}
+//-------------------------------------------------------------------------------------------------------------
+int Common::Set_Password_nohash(string password)
+{
+    hash<string> mystdhash;
+    int counter = 0;
+    bool ch = false; //character
+    bool num = false; //numbers
+    string pass = "" ;
+    if(password.size()> 4 )
+    {
+         for (char c : password )
+        {
+        int num = c - '0'; // convert character to integer
+        char ascii = static_cast<char>(num + '0'); // convert integer to ASCII 
+        pass += ascii;
+        }
+
+        for( int i=0 ;i<pass.size() ;i++)
+        {
+            if(pass[i]>=65 && pass[i]<=90 || pass[i]>=97 && pass[i]<=122 )
+            {
+                ch = true;
+            }
+            else if(pass[i]>=48 && pass[i]<=57 )
+            {
+                num = true;
+            }
+        }
+    }
+    else
+    {
+        cout << "! Your password must be more than 4 characters.\n";
+        return ++counter ;    
+    }
+    
+    if (ch == false || num == false)
+    {
+        cout << "! Password should contain both character and number.\n" ;
+        return ++counter;
+    }
+    else if ( ch == false && num == true || ch== true && num==false)
+    {
+         cout << "! Password should contain both character and number.\n" ;
+        return ++counter;
+    }
+    
+    else
+    {
+        Password_nohash = pass;
+        return 0;
+    }
+        // Password_nohash = passwordd;
+        // return 0;
     
 
 }
 //-------------------------------------------------------------------------------------------------------------
-size_t Common::Get_Password_nonhash()
+string Common::Get_Password_nonhash()//size
 {
     return Password_nohash;
 }
 
-size_t Common::Get_Password() 
+string Common::Get_Password() 
 {
     return Password;
 }
@@ -172,9 +219,9 @@ string Common::Get_Header()
 }
 
 
-void Common::push_tweet(Tweet word) //class Tweet //overload
+void Common::push_tweet(Tweet t)
 {
-    mtweet[word.get_number()] = word; 
+    mtweet[this->index] = t;
     cout << "* Your tweet has been successfully registered.\n";
 }
 
@@ -290,13 +337,13 @@ void Common::add_following(string addfollow)
     bool flag = 0 ;
     for(auto i : vecfollowing)
     {
-        if(i==addfollow)
+        if(i == addfollow)
         {
-            flag=1 ;
+            flag = 1 ;
             break ;
         }
     }
-    if(flag==0)
+    if(flag == 0)
     {
         vecfollowing.push_back(addfollow) ;
         cout << "* followed.\n" ;
@@ -311,6 +358,7 @@ void Common::add_following(string addfollow)
 void Common::show_following()
 {
     cout << Get_following() << endl ;
+    cout << "name"<<endl;
     for(auto i : vecfollowing )
     {
         cout << i << endl ;
@@ -413,6 +461,8 @@ void Common :: put_tweet()
 
     mytweet.close();
 }
+//=============================================================================================================
+
 //==============================================================================================================
 
 void Common :: put_follow()
@@ -420,15 +470,23 @@ void Common :: put_follow()
     ofstream myfollow;
     myfollow.open("follow.txt" , ios::app);
 
+    myfollow << User_Name << endl;
+
     for(int i = 0 ; i< vecfollowing.size(); i++)
     {
         myfollow << vecfollowing[i] << endl;
     }
+    myfollow << "***************************************\n";
     myfollow.close();
 }
 
-
+//---------------------------------------------------------------------------------------------------------------
 void Common :: flike(Common* purpose , int index)
 {
     mtweet[index].likes(purpose);
+}
+
+void Common :: follow_f(string purpose)
+{
+    vecfollowing.push_back(purpose);
 }

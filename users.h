@@ -21,8 +21,8 @@ class Common //parent
         vector<string> vecfollowing ;
         string Name;
         string User_Name;
-        size_t Password;
-        size_t Password_nohash;
+        string Password;
+        string Password_nohash;//size_t
         string Picture; //profile pic
         string Header; //header color
         string Age;
@@ -44,9 +44,9 @@ class Common //parent
         virtual string Get_User();
 
         virtual int Set_Password(string Password);
-        virtual size_t Get_Password();//string / size_t
-        virtual int Set_Password_nohash(size_t Password);
-        virtual size_t Get_Password_nonhash();
+        virtual string Get_Password();//string / size_t
+        virtual int Set_Password_nohash(string Password);
+        virtual string Get_Password_nonhash();
 
         virtual int Set_Bio(string Bio){};
         virtual string Get_Bio(){return "______";};
@@ -66,6 +66,7 @@ class Common //parent
         virtual void Set_Header(string Header);
         virtual string Get_Header();
 
+        // virtual void push_tweet(string t);
         virtual void push_tweet(Tweet t);
         virtual void get_tweet();
         virtual void get_tweet1(int index);
@@ -97,7 +98,12 @@ class Common //parent
         void put_tweet();
         void put_follow();
         void flike(Common* , int);
-
+        void follow_f(string purpose);
+        Tweet &indx(int x)
+        {   
+            // cout << this->mtweet[x].get_classtweet();
+            return this->mtweet[x];
+        }
 };
 
 
