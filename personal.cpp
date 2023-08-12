@@ -64,7 +64,7 @@ string Personal::Get_Country()
 
 int Personal::Set_Link(string Link)
 {
-    if(Link.size() < 500)
+    if(Link.substr(0 , 8) != "https://"  )
     { 
         this-> Link = "https://" + Link;
         return 1; 
@@ -76,7 +76,7 @@ int Personal::Set_Link(string Link)
     }
     else
     {
-        cout << "! Error please Enter another Link.\n";
+        this-> Link = Link;
         return 0 ;
     }
     
